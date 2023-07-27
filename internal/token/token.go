@@ -23,7 +23,7 @@ const (
 	GT       = ">"
 	BANG     = "!"
 	EQ       = "=="
-	NEQ      = "!="
+	NOT_EQ      = "!="
 
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -43,8 +43,8 @@ const (
 )
 
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
 	"return": RETURN,
 }
 
