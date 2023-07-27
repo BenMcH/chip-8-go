@@ -23,7 +23,7 @@ const (
 	GT       = ">"
 	BANG     = "!"
 	EQ       = "=="
-	NOT_EQ      = "!="
+	NOT_EQ   = "!="
 
 	COMMA     = ","
 	SEMICOLON = ";"
