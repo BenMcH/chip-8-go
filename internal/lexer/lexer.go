@@ -95,10 +95,9 @@ func (l *Lexer) readChar() {
 		l.ch = 0
 	} else {
 		l.ch = l.input[l.readPosition]
-
+	}
 		l.position = l.readPosition
 		l.readPosition += 1
-	}
 }
 
 func (l *Lexer) peekChar() byte {
@@ -110,12 +109,11 @@ func (l *Lexer) peekChar() byte {
 }
 
 func (l *Lexer) readIdentifier() string {
-	pos := l.position
+	position := l.position
 	for isLetter(l.ch) {
 		l.readChar()
 	}
-
-	return l.input[pos:l.position]
+	return l.input[position:l.position]
 }
 
 func (l *Lexer) readNumber() string {
