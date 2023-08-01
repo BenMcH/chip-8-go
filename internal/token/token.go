@@ -46,6 +46,8 @@ var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
 	"return": RETURN,
+	"true": TRUE,
+	"false": FALSE,
 }
 
 func LookupIdent(ident string) TokenType {
