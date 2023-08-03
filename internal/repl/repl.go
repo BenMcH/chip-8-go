@@ -7,6 +7,7 @@ import (
 
 	"github.com/benmch/chip-8-go/internal/evaluator"
 	"github.com/benmch/chip-8-go/internal/lexer"
+	"github.com/benmch/chip-8-go/internal/object"
 	"github.com/benmch/chip-8-go/internal/parser"
 )
 
@@ -14,6 +15,7 @@ const PROMPT = ">> "
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+    env := object.NewEnvironment()
 
 	for {
 		fmt.Fprintf(out, PROMPT)
@@ -34,7 +36,7 @@ func Start(in io.Reader, out io.Writer) {
 		}
 
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
