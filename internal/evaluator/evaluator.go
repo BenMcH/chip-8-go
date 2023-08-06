@@ -33,13 +33,15 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 		env.Set(node.Name.String(), val)
 	case *ast.Identifier:
-		value, ok := env.Get(node.Value)
-
-		if !ok {
-			return newError("identifier not found: %s", node.Value)
+		if value, ok := env.Get(node.Value); ok {
+			return value
 		}
 
-		return value
+		if builtin, ok := builtins[node.Value]; ok {
+			return builtin
+		}
+
+		return newError("identifier not found: %s", node.Value)
 	case *ast.PrefixExpression:
 		right := Eval(node.Right, env)
 
@@ -95,16 +97,18 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 }
 
 func applyFunction(fn object.Object, args []object.Object) object.Object {
-	function, ok := fn.(*object.Function)
+	switch fn := fn.(type) {
+	case *object.Function:
+		extendedEnv := extendFunctionEnv(fn, args)
+		evaluated := Eval(fn.Body, extendedEnv)
 
-	if !ok {
-		return newError("not a function: %s", fn.Type())
+		return unwrapReturnValue(evaluated)
+	case *object.Builtin:
+		return fn.Fn(args...)
 	}
 
-	extendedEnv := extendFunctionEnv(function, args)
-	evaluated := Eval(function.Body, extendedEnv)
+	return newError("not a function: %s", fn.Type())
 
-	return unwrapReturnValue(evaluated)
 }
 
 func extendFunctionEnv(
