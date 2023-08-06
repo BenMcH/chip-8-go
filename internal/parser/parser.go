@@ -273,7 +273,6 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.LET:
 		return p.parseLetStatement()
 	case token.RETURN:
-		fmt.Println("Parsing return")
 		return p.parseReturnStatement()
 	default:
 		return p.parseExpressionStatement()
