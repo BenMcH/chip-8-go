@@ -73,7 +73,12 @@ func (l *Lexer) NextToken() token.Token {
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
-
+	case '[':
+		tok.Literal = "["
+		tok.Type = token.LBRACKET
+	case ']':
+		tok.Literal = "]"
+		tok.Type = token.RBRACKET
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
